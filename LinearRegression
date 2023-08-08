@@ -1,0 +1,91 @@
+import torch
+import random
+import torch.nn as nn
+import numpy as np
+from sklearn import datasets
+import matplotlib.pyplot as plt
+
+X_numpy, Y_numpy = datasets.make_regression(n_samples=4, n_features=1, noise=20, random_state=1)
+x = torch.from_numpy(X_numpy.astype(np.float32))
+y = torch.from_numpy(X_numpy.astype(np.float32))
+y = y.view(y.shape[0], 1)
+
+n_samples, n_features = x.shape
+
+input_size = n_features
+output_size = 1
+model = nn.Linear(input_size, input_size)
+
+learning_rate = 0.01
+criterion = nn.MSELoss()
+optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
+
+num_epochs = 39
+
+for epoch in range(num_epochs):
+
+    if num_epochs == 3:
+      learning_rate = 1
+      n_samples=8
+    if num_epochs == 6:
+      leanring_rate = 10
+      n_samples=12
+    if num_epochs == 9:
+      leanring_rate = 100
+      n_samples=16
+    if num_epochs == 12:
+      leanring_rate = 1000
+      n_samples=20
+    if num_epochs == 15:
+      leanring_rate = 10000
+      n_samples=24
+    if num_epochs == 18:
+      leanring_rate = 1000000
+      n_samples=28
+    if num_epochs == 21:
+      leanring_rate = 10000000
+      n_samples=32
+    if num_epochs == 24:
+      leanring_rate = 100000000
+      n_samples=36
+    if num_epochs == 27:
+      leanring_rate = 1000000000
+      n_samples=40
+    if num_epochs == 30:
+      leanring_rate = 10000000000
+      n_samples=44
+    if num_epochs == 33:
+      leanring_rate = 100000000000
+      n_samples=48
+    if num_epochs == 36:
+      leanring_rate = 1000000000000
+      n_samples=52
+
+    y_predicted = model(x)
+    loss = criterion(y_predicted, y)
+
+    loss.backward()
+
+    optimizer.step()
+
+    optimizer.zero_grad()
+
+    if (epoch+1) % 1 == 0:
+        print(f'epoch: {epoch+1}, loss = {loss.item():.4f}')
+
+
+predicted = model(x).detach().numpy()
+plt.plot(X_numpy, Y_numpy, 'ro')
+plt.plot(X_numpy, predicted, 'y')
+plt.show()
+
+randint = random.randrange(-10, 10)
+f = torch.tensor([randint], dtype=torch.float32)
+final_pred = model(f)
+print(final_pred)
+print(randint)
+
+plt.grid()
+plt.plot([randint], final_pred.detach().numpy(), marker="o", markersize=20, markeredgecolor="red", markerfacecolor="green")
+plt.plot(X_numpy, predicted, 'y')
+plt.show()
