@@ -1,0 +1,27 @@
+import torch
+import random
+import numpy as np
+
+randad2 = random.randrange(1, 6)
+randad = random.randrange(1, 6)
+rand1s = random.randrange(0, 6)
+randx = random.randrange(0, 10)
+randy = random.randrange(0, 5)
+x = torch.rand(10,5)
+z = x.add_(randad2)
+
+a = torch.ones(rand1s)
+b = a.numpy()
+print(b)
+c = a.add_(randad)
+d = c.numpy()
+print(d)
+print(f'RANDAD: {randad}')
+
+
+print(f'RANDAD2: {randad2}')
+print(z)
+print(z[randx, randy].item())
+print(z[randx, randy])
+print(f'RANDX: {randx}')
+print(f'RANDY: {randy}')
